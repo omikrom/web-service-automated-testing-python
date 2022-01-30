@@ -5,6 +5,7 @@ import json
 from flask import Flask, request, Response, jsonify
 from flask_cors import CORS
 import asyncio
+import os
 
 ## testing
 import usermodel
@@ -142,6 +143,6 @@ async def deletepost(id):
 
 
 if __name__ == '__main__':
-    service.run(host='0.0.0.0', port=105)
+    service.run(host='0.0.0.0', port=int(os.getenv('PORT'))
 asyncio.run()
 

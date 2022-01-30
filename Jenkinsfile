@@ -16,7 +16,6 @@ pipeline {
         stage('Test Post board requests') {
             steps {
             
-                    sh 'npm i'
                     sh '''#!/bin/bash
                     
                     npm --version; 
@@ -33,7 +32,7 @@ pipeline {
         }
         stage('Test User Requests') {
             steps {
-                sh 'npm i'
+
                 sh '''#!/bin/bash
                     
                 npm --version; 

@@ -145,6 +145,7 @@ osenv = os.getenv('PORT')
 
 
 if __name__ == '__main__':
-    service.run(host='0.0.0.0', port=int(osenv))
+    service.run(host='0.0.0.0', port=osenv)
+
 asyncio.run()
 

@@ -141,8 +141,10 @@ async def deletepost(id):
     res = postmodel.DeletePostByID(id, status)
     return jsonify(res[0]), res[1]
 
+osenv = os.getenv('PORT')
+
 
 if __name__ == '__main__':
-    service.run(host='0.0.0.0', port=int(os.getenv('PORT')))
+    service.run(host='0.0.0.0', port=int(osenv))
 asyncio.run()
 

@@ -19,7 +19,7 @@ import postmodel
 ##from flask import request
 
 service = Flask(__name__)
-service.config['DEBUG'] = True
+
 CORS(service)
 cors = CORS(service, resources={r"/api/*": {
     "origins": "*",
@@ -143,6 +143,5 @@ async def deletepost(id):
 
 if __name__ == '__main__':
     service.run(host='0.0.0.0', port=105)
-
 asyncio.run()
 

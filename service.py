@@ -143,6 +143,6 @@ async def deletepost(id):
 
 
 if __name__ == '__main__':
-    service.run(host='0.0.0.0', port=int(os.getenv('PORT'))
+    service.run(host='0.0.0.0', port=int(os.getenv('PORT')))
 asyncio.run()
 

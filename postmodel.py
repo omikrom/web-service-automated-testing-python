@@ -38,90 +38,131 @@ def CreateComment(id, data, status):
     ## load json to python object
     resp = json.loads(json_str)
     print('Adding a new comment by:', resp['username'])
-    if (id == Undefined):
-        status = 400
-        return {'error': 'post id is required'}, status
-    else:
-        try:
-            now = datetime.datetime.now()
-            comment = {};
-            comment = ({
-            "commentId": GenerateCommentID(convertedID),
-            "content": resp['content'],
-            "creator": resp['username'],
-            "created": now.strftime("%Y-%m-%d %H:%M:%S")
-            })
-            for i in posts:
-                if (i['postId'] == convertedID):
-                    i['comments'].append(comment)
-                    status = 201
-                    print(comment)
-                    return comment, status
+    found = False
+    for i in posts:
+        if (i['postId'] == convertedID):
+            found = True
 
-        except:
+    if(found == True):
+        if (id == Undefined):
             status = 400
-            return {'error': 'no content'}, status
+            return {'error': 'post id is required'}, status
+        else:
+            try:
+                now = datetime.datetime.now()
+                comment = {};
+                comment = ({
+                "commentId": GenerateCommentID(convertedID),
+                "content": resp['content'],
+                "creator": resp['username'],
+                "created": now.strftime("%Y-%m-%d %H:%M:%S")
+                })
+                for i in posts:
+                    if (i['postId'] == convertedID):
+                        i['comments'].append(comment)
+                        status = 201
+                        print(comment)
+                        return comment, status
+
+            except:
+                status = 400
+                return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'no content'}, status
 
 def SelectPostByID(id, status):
     convertedID = int(id)
-    if (id == Undefined):
-        status = 400
-        return {'error': 'post id is required'}, status
-    try: 
-        for i in posts:
-            if (i['postId'] == convertedID):
-                print('Post found :', i['title'])
-                status = 200
-                return i, status
-            if (i['postId'] != convertedID):
-                status = 404
-                return {'error': 'no content'}, status
-    except:
-        status = 400
+    found = False
+    for i in posts:
+        if (i['postId'] == convertedID):
+            found = True
+    if (found == True):
+        if (id == Undefined):
+            status = 400
+            return {'error': 'post id is required'}, status
+        try: 
+            for i in posts:
+                if (i['postId'] == convertedID):
+                    print('Post found :', i['title'])
+                    status = 200
+                    return i, status
+                if (i['postId'] != convertedID):
+                    status = 404
+                    return {'error': 'no content'}, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
         return {'error': 'no content'}, status
 
 def SelectAllCommentsByPostID(id, status):
     convertedID = int(id)
-    if (id == Undefined):
-        status = 400
-        return {'error': 'post id is required'}, status
-    try: 
-        for i in posts:
-            if (i['postId'] == convertedID):
-                print('Post found :', i['title'])
-                status = 200
-                return i['comments'], status
-            if (i['postId'] != convertedID):
-                status = 404
-                return {'error': 'no content'}, status
-    except:
-        status = 400
+    found = False
+    for i in posts:
+        if (i['postId'] == convertedID):
+            found = True
+    if (found == True):
+        if (id == Undefined):
+            status = 400
+            return {'error': 'post id is required'}, status
+        try: 
+            for i in posts:
+                if (i['postId'] == convertedID):
+                    print('Post found :', i['title'])
+                    status = 200
+                    return i['comments'], status
+                if (i['postId'] != convertedID):
+                    status = 404
+                    return {'error': 'no content'}, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
         return {'error': 'no content'}, status
 
 def SelectPostsByTitle(title, status):
-    try: 
-        for i in posts:
-            if (i['title'] == title):
-                print('Post found :', i['title'])
-                status = 200
-                return i, status
-    except:
-        status = 400
+    print('Searching for posts by:', type(title))
+    found = False
+    for i in posts:
+        if (i['title'] == title):
+            found = True
+    if (found == True):
+        try: 
+            for i in posts:
+                if (i['title'] == title):
+                    print('Post found :', i['title'])
+                    status = 200
+                    return i, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
         return {'error': 'no content'}, status
 
 def SelectPostsByCreator(creator, status):
     print('Searching for posts by:', type(creator))
-    print(type(creator))
-    try: 
-        for i in posts:
-            print(i['creator'])
-            print(type(i['creator']))
-            if (i['creator'] == creator):
-                print('Post found :', i['title'])
-                status = 200
-                return i, status
-    except:
-        status = 400
+    found = False
+    for i in posts:
+        if (i['creator'] == creator):
+            found = True
+    if (found == True):
+        try: 
+            for i in posts:
+                print(i['creator'])
+                print(type(i['creator']))
+                if (i['creator'] == creator):
+                    print('Post found :', i['title'])
+                    status = 200
+                    return i, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
         return {'error': 'no content'}, status
 
 def SelectAllPosts(status):

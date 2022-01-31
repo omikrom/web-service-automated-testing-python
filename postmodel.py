@@ -161,20 +161,18 @@ def DeleteCommentByID(postID, id, status):
     if(id == Undefined):
         status = 400
         return {'error': 'comment id is required'}, status
+    print(convertedCommentID)
+    print(convertedPostID)
+    found = False
+    for i in posts:
+        for j in i['comments']:
+            print('j:', j)
+            print('i:', i)
+            if (j > 0):
+                found = True
+    print(found)
+    
     try:
-        print(convertedCommentID)
-        print(convertedPostID)
-
-        found = False
-
-        for i in posts:
-            for j in i['comments']:
-                print('j:', j)
-                print('i:', i)
-                if (j > 0):
-                    found = True
-        print(found)
-
         for i in posts:
             if (i['postId'] == convertedPostID):
                 print('Post found :', i['title'])

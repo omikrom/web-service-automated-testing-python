@@ -162,6 +162,8 @@ def DeleteCommentByID(postID, id, status):
         status = 400
         return {'error': 'comment id is required'}, status
     try:
+        print(convertedCommentID)
+        print(convertedPostID)
         for i in posts:
             if (i['postId'] == convertedPostID):
                 for j in i['comments']:

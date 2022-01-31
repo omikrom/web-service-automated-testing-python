@@ -135,27 +135,35 @@ def SelectAllPosts(status):
 
 def DeletePostByID(id,status):
     convertedID = int(id)
+    count = 0
+    found = False
+    for i in posts:
+        count = count + 1
+        if (count > 0):
+            if (i['postId'] == convertedID):
+                found = True
     if (id == Undefined):
         status = 400
         return {'error': 'post id is required'}, status
-    try:
-        for i in posts:
-            if (i['postId'] == convertedID):
-                posts.remove(i)
-                status = 200
-                print('Post deleted')
-                return {'message': 'Post deleted'}, status
-            if (i['postId'] != id):
-                status = 404
-                return {'error': 'no content'}, status
-    except:
-        status = 400
-        return {'error': 'no content'}, status
+    if (found == True):
+        try:
+            for i in posts:
+                if (i['postId'] == convertedID):
+                    posts.remove(i)
+                    status = 200
+                    print('Post deleted')
+                    return {'message': 'Post deleted'}, status
+                else:
+                    status = 404
+                    return {'error': 'no content'}, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
 
 def DeleteCommentByID(postID, id, status):
     convertedPostID = int(postID)
     convertedCommentID = int(id)
-    number = 0
+    count = 0
     inner = 0
     if (postID == Undefined):
         status = 400
@@ -167,11 +175,9 @@ def DeleteCommentByID(postID, id, status):
     print(convertedPostID)
     found = False
     for i in posts:
-        number = number + 1
+        count = count + 1
         for j in i['comments']:
             inner = inner + 1
-            print('j:', j)
-            print('i:', i)
             if (inner > 0):
                 if (j['commentId'] == convertedCommentID):
                     found = True

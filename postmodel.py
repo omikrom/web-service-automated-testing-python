@@ -164,6 +164,17 @@ def DeleteCommentByID(postID, id, status):
     try:
         print(convertedCommentID)
         print(convertedPostID)
+
+        found = False
+
+        for i in posts:
+            for j in i['comments']:
+                print('j:', j)
+                print('i:', i)
+                if (j > 0):
+                    found = True
+        print(found)
+
         for i in posts:
             if (i['postId'] == convertedPostID):
                 print('Post found :', i['title'])

@@ -166,15 +166,17 @@ def DeleteCommentByID(postID, id, status):
         print(convertedPostID)
         for i in posts:
             if (i['postId'] == convertedPostID):
+                print('Post found :', i['title'])
+                if (i['comments'] == []):
+                    status = 404
+                    return {'error': 'no content'}, status
                 for j in i['comments']:
                     if (j['commentId'] == convertedCommentID):
+                        print('Comment found :', j['comment'])
                         i['comments'].remove(j)
                         status = 200
                         print('Comment deleted')
                         return {'message': 'Comment deleted'}, status
-                    if (j['commentId'] != convertedCommentID):
-                        status = 404
-                        return {'error': 'no content'}, status
     except:
         status = 400
         return {'error': 'no content'}, status

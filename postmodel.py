@@ -182,6 +182,9 @@ def DeleteCommentByID(postID, id, status):
                         status = 200
                         print('Comment deleted')
                         return {'message': 'Comment deleted'}, status
+                    else:
+                        status = 404
+                        return {'message': 'Cannot delete a comment'}, status
     except:
         status = 400
         return {'error': 'no content'}, status

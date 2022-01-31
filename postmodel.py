@@ -165,10 +165,12 @@ def DeleteCommentByID(postID, id, status):
     print(convertedPostID)
     found = False
     for i in posts:
+        number = number + 1
         for j in i['comments']:
+            inner = inner + 1
             print('j:', j)
             print('i:', i)
-            if (j > 0):
+            if (inner > 0):
                 found = True
     print(found)
     

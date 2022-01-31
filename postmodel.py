@@ -155,6 +155,8 @@ def DeletePostByID(id,status):
 def DeleteCommentByID(postID, id, status):
     convertedPostID = int(postID)
     convertedCommentID = int(id)
+    number = 0
+    inner = 0
     if (postID == Undefined):
         status = 400
         return {'error': 'post id is required'}, status

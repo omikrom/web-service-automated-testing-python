@@ -159,6 +159,9 @@ def DeletePostByID(id,status):
         except:
             status = 400
             return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'no content'}, status
 
 def DeleteCommentByID(postID, id, status):
     convertedPostID = int(postID)

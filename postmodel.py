@@ -147,6 +147,8 @@ async def SelectPostsByCreator(creator, status):
     print('Searching for posts by:', type(creator))
     found = False
     for i in posts:
+        print("creator:" + i['creator'])
+        print("creatorInput:" + creator)
         if (i['creator'] == creator):
             found = True
     if (found == True):

@@ -45,7 +45,7 @@ async def createuser():
 @service.route('/users', methods=['GET'])
 async def getusers():
     status = 0
-    res = usermodel.SelectAllUsers(status)
+    res = await usermodel.SelectAllUsers(status)
     print(res[0])
     print(res[1])
     return jsonify(res[0]), res[1]
@@ -54,7 +54,7 @@ async def getusers():
 @service.route('/user/<id>', methods=['GET'])
 async def getuser(id):
     status = 0
-    res = usermodel.SelectUserByID(id, status)
+    res = await usermodel.SelectUserByID(id, status)
     print(res)
     print(res[1])
     return jsonify(res[0]), res[1]
@@ -63,7 +63,7 @@ async def getuser(id):
 async def getuserbyname():
     status = 0
     name = request.args.get('username')
-    res = usermodel.SelectUserByUsername(name, status)
+    res = await usermodel.SelectUserByUsername(name, status)
     print(res)
     print(res[1])
     return jsonify(res[0]), res[1]
@@ -72,14 +72,14 @@ async def getuserbyname():
 async def updateuser(id):
     print('test')
     status = 0
-    res = usermodel.UpdateUserByID(id, request, status)
+    res = await usermodel.UpdateUserByID(id, request, status)
     print(res[1])
     return jsonify(res[0]), res[1]
 
 @service.route('/user/<id>', methods=['DELETE'])
 async def deleteuser(id):
     status = 0
-    res = usermodel.DeleteUserByID(id, status)
+    res = await usermodel.DeleteUserByID(id, status)
     print(res[1])
     return jsonify(res[0]), res[1]
 
@@ -91,26 +91,26 @@ async def deleteuser(id):
 @service.route('/createpost', methods=['POST'])
 async def createpost():
     status = 0
-    res = postmodel.CreatePost(request, status)
+    res = await postmodel.CreatePost(request, status)
     return jsonify(res[0]), res[1]
 
 
 @service.route('/post/<id>/comment', methods=['POST'])
 async def createcomment(id):
     status = 0
-    res = postmodel.CreateComment(id, request, status)
+    res = await postmodel.CreateComment(id, request, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/post/<id>', methods=['GET'])
 async def getpost(id):
     status = 0
-    res = postmodel.SelectPostByID(id, status)
+    res = await postmodel.SelectPostByID(id, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/post/<id>/comments', methods=['GET'])
 async def getcomments(id):
     status = 0
-    res = postmodel.SelectAllCommentsByPostID(id, status)
+    res = await postmodel.SelectAllCommentsByPostID(id, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/posts', methods=['GET'])
@@ -118,7 +118,7 @@ async def getpostsbytitle():
     status = 0
     title = request.args.get('title')
     print(title)
-    res = postmodel.SelectPostsByTitle(title, status)
+    res = await postmodel.SelectPostsByTitle(title, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/posts/user', methods=['GET'])
@@ -126,19 +126,19 @@ async def getpostsbycreator():
     status = 0
     user = request.args.get('creator')
     print(user)
-    res = postmodel.SelectPostsByCreator(user, status)
+    res = await postmodel.SelectPostsByCreator(user, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/post/<id>/comment/<postId>', methods=['DELETE'])
 async def deletecomment(postId, id):
     status = 0
-    res = postmodel.DeleteCommentByID(postId, id, status)
+    res = await postmodel.DeleteCommentByID(postId, id, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/post/<id>', methods=['DELETE'])
 async def deletepost(id):
     status = 0
-    res = postmodel.DeletePostByID(id, status)
+    res = await postmodel.DeletePostByID(id, status)
     return jsonify(res[0]), res[1]
 
 osenv = os.getenv('PORT')

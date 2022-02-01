@@ -3,7 +3,7 @@ import sys, datetime
 
 userdata = [];
 
-def CreateUser(data, status):
+async def CreateUser(data, status):
     ## dump string to json
     json_str = json.dumps(data.json)
     ## load json to python object
@@ -33,7 +33,7 @@ def CreateUser(data, status):
             status = 400
             return {'error': 'no content'}, status
 
-def SelectUserByID(id, status):
+async def SelectUserByID(id, status):
     convertedID = int(id)
     try: 
         for i in userdata:
@@ -49,7 +49,7 @@ def SelectUserByID(id, status):
         return {'error': 'no content'}, status
 
 
-def SelectUserByUsername(username, status):
+async def SelectUserByUsername(username, status):
     try: 
         for i in userdata:
             print(i['username'])
@@ -63,7 +63,7 @@ def SelectUserByUsername(username, status):
         return {'error': 'no content'}, status
 
 
-def SelectAllUsers(status):
+async def SelectAllUsers(status):
     try:
         print('Getting all users')
         status = 200
@@ -73,7 +73,7 @@ def SelectAllUsers(status):
         return {'error': 'no content'}, status
 
 
-def UpdateUserByID(id, data, status):
+async def UpdateUserByID(id, data, status):
     print('update user by id')
     ## dump string to json
     convertedID = int(id)
@@ -102,7 +102,7 @@ def UpdateUserByID(id, data, status):
             return {'error': 'no content'}, status
 
 
-def DeleteUserByID(id, status):
+async def DeleteUserByID(id, status):
     convertedID = int(id)
     try:
         for i in userdata:

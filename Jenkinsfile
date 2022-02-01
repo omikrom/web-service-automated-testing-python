@@ -25,7 +25,7 @@ pipeline {
                     npm install -g newman-reporter-htmlextra
                     echo "----running postman tests----";
                     echo "running post board request tests";
-                    newman run "https://www.getpostman.com/collections/c0ada7842e42e2618388" --delay-request 1000 --reporters cli,junit,htmlextra --reporter-junit-export "newman/postreq-test-report.xml" ;
+                    newman run "https://www.getpostman.com/collections/c0ada7842e42e2618388" --delay-request 5000 --reporters cli,junit,htmlextra --reporter-junit-export "newman/postreq-test-report.xml" ;
                     '''
 
             }
@@ -42,7 +42,7 @@ pipeline {
                 npm install -g newman-reporter-htmlextra
                 echo "----running postman tests----";
                 echo "running post board request tests";
-                newman run "https://www.getpostman.com/collections/e3532e5c25dce3ef3ead" --reporters cli,junit,htmlextra --reporter-junit-export "newman/userreq-integration-test-report.xml" ;
+                newman run "https://www.getpostman.com/collections/e3532e5c25dce3ef3ead" --delay-request 5000 --reporters cli,junit,htmlextra --reporter-junit-export "newman/userreq-integration-test-report.xml" ;
                 '''
             }
         }

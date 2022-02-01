@@ -39,7 +39,7 @@ def welcome():
 @service.route('/createuser', methods=['POST'])
 async def createuser():
     status = 0
-    res = usermodel.CreateUser(request, status)
+    res = await usermodel.CreateUser(request, status)
     return jsonify(res[0]), res[1]
 
 @service.route('/users', methods=['GET'])
@@ -144,10 +144,9 @@ async def deletepost(id):
 osenv = os.getenv('PORT')
 
 
-
 if __name__ == '__main__':
     service.run(host='0.0.0.0', port=osenv)
 
-asyncio.run()
+##asyncio.run()
 
 

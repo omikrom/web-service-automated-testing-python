@@ -5,7 +5,7 @@ from jinja2 import Undefined
 
 posts = [];
 
-def CreatePost(data, status):
+async def CreatePost(data, status):
     print('creating a new post')
     ## dump string to json
     json_str = json.dumps(data.json)
@@ -31,7 +31,7 @@ def CreatePost(data, status):
             status = 400
             return {'error': 'no content'}, status
 
-def CreateComment(id, data, status): 
+async def CreateComment(id, data, status): 
     convertedID = int(id)
     ## dump string to json
     json_str = json.dumps(data.json)
@@ -71,7 +71,7 @@ def CreateComment(id, data, status):
         status = 404
         return {'error': 'no content'}, status
 
-def SelectPostByID(id, status):
+async def SelectPostByID(id, status):
     convertedID = int(id)
     found = False
     for i in posts:
@@ -97,7 +97,7 @@ def SelectPostByID(id, status):
         status = 404
         return {'error': 'no content'}, status
 
-def SelectAllCommentsByPostID(id, status):
+async def SelectAllCommentsByPostID(id, status):
     convertedID = int(id)
     found = False
     for i in posts:
@@ -123,7 +123,7 @@ def SelectAllCommentsByPostID(id, status):
         status = 404
         return {'error': 'no content'}, status
 
-def SelectPostsByTitle(title, status):
+async def SelectPostsByTitle(title, status):
     print('Searching for posts by:', type(title))
     found = False
     for i in posts:
@@ -143,7 +143,7 @@ def SelectPostsByTitle(title, status):
         status = 404
         return {'error': 'no content'}, status
 
-def SelectPostsByCreator(creator, status):
+async def SelectPostsByCreator(creator, status):
     print('Searching for posts by:', type(creator))
     found = False
     for i in posts:
@@ -165,7 +165,7 @@ def SelectPostsByCreator(creator, status):
         status = 404
         return {'error': 'no content'}, status
 
-def SelectAllPosts(status):
+async def SelectAllPosts(status):
     try:
         print('All posts found')
         status = 200
@@ -174,7 +174,7 @@ def SelectAllPosts(status):
         status = 400
         return {'error': 'no content'}, status
 
-def DeletePostByID(id,status):
+async def DeletePostByID(id,status):
     convertedID = int(id)
     count = 0
     found = False
@@ -204,7 +204,7 @@ def DeletePostByID(id,status):
         status = 404
         return {'error': 'no content'}, status
 
-def DeleteCommentByID(postID, id, status):
+async def DeleteCommentByID(postID, id, status):
     convertedPostID = int(postID)
     convertedCommentID = int(id)
     count = 0

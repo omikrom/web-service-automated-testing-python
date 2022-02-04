@@ -24,7 +24,7 @@ service = Flask(__name__)
 CORS(service)
 cors = CORS(service, resources={r"/api/*": {
     "origins": "*",
-    "methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
     "allowedHeaders":  "Authorization, Origin, Content-Type, Accept, X-Requested-With",
     "maxAge": 1728000
     }})
@@ -54,6 +54,12 @@ async def getuser(id):
     res = await usermodel.SelectUserByID(int(id), status)
     return jsonify(res[0]), res[1]
 
+@service.route('/user/<id>', methods=['PATCH'])
+async def updateuser(id):
+    status = 0
+    res = await usermodel.UpdateUserByID(int(id), request, status)
+    return jsonify(res[0]), res[1]
+
 @service.route('/user', methods=['GET'])
 async def getuserbyname():
     status = 0
@@ -61,12 +67,9 @@ async def getuserbyname():
     if (type(name) == str):
         res = await usermodel.SelectUserByUsername(name, status)
         return jsonify(res[0]), res[1]
+    else:
+        return jsonify({'error': 'Invalid query'}), 400
 
-@service.route('/user/<id>', methods=['PATCH'])
-async def updateuser(id):
-    status = 0
-    res = await usermodel.UpdateUserByID(int(id), request, status)
-    return jsonify(res[0]), res[1]
 
 @service.route('/user/<id>', methods=['DELETE'])
 async def deleteuser(id):

@@ -7,31 +7,25 @@ async def CreateUser(data, status):
     ## dump string to json
     json_str = json.dumps(data.json)
     ## load json to python object
-    resp = json.loads(json_str)
+    req = json.loads(json_str)
     print('Adding a new user :', resp['username'])
-    if (resp['username'] == ''):
+    try:
+        now = datetime.datetime.now()
+        userInput = {};
+        userInput = ({
+        "id": GenerateID(),
+        "username": req['username'],
+        "password": req['password'],
+        "name": req['name'],
+        "email": req['email'],
+        "created": now.strftime("%Y-%m-%d %H:%M:%S")
+        })
+        userdata.append(userInput)
+        status = 201
+        return userInput, status
+    except:
         status = 400
         return {'error': 'no content'}, status
-        ## convert data to json
-    else:
-        try:
-            now = datetime.datetime.now()
-            userInput = {};
-            userInput = ({
-            "id": GenerateID(),
-            "username": resp['username'],
-            "password": resp['password'],
-            "name": resp['name'],
-            "email": resp['email'],
-            "created": now.strftime("%Y-%m-%d %H:%M:%S")
-            })
-            userdata.append(userInput)
-            status = 201
-            print(userInput)
-            return userInput, status
-        except:
-            status = 400
-            return {'error': 'no content'}, status
 
 async def SelectUserByID(id, status):
     convertedID = int(id)
@@ -108,7 +102,7 @@ async def DeleteUserByID(id, status):
         for i in userdata:
             if (i['id'] == convertedID):
                 print('Deleting user :', i['username'])
-                userdata.remove(i)
+                userdata.pop(i)
                 status = 200
                 return {'message': 'deleted'}, status
     except:

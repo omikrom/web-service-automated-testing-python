@@ -10,22 +10,22 @@ async def CreatePost(data, status):
     ## dump string to json
     json_str = json.dumps(data.json)
     ## load json to python object
-    resp = json.loads(json_str)
-    print('Creating a new post by:', resp['creator'])
+    req = json.loads(json_str)
+    print('Creating a new post by:', req['creator'])
     try:
-            now = datetime.datetime.now()
+            iD = GenerateID();
+            date = datetime.datetime.now();
             post = {};
             post = ({
-            "postId": GenerateID(),
-            "title" : resp['title'],
-            "content" : resp['content'],
-            "creator": resp['creator'],
-            "created": now.strftime("%Y-%m-%d %H:%M:%S"),
+            "postId": iD,
+            "title" : req['title'],
+            "content" : req['content'],
+            "created": date.strftime("%Y-%m-%d %H:%M:%S"),
+            "creator": req['creator'],
             "comments": []
             })
             posts.append(post)
             status = 201
-            print(post)
             return post, status
     except:
             status = 400
@@ -37,31 +37,26 @@ async def CreateComment(id, data, status):
     json_str = json.dumps(data.json)
     ## load json to python object
     resp = json.loads(json_str)
-    print('Adding a new comment by:', resp['username'])
+    print('Adding a new comment by:', resp['creator'])
     found = False
     for i in posts:
         if (i['postId'] == convertedID):
             found = True
-
+            break
     if(found == True):
-        if (id == Undefined):
-            status = 400
-            return {'error': 'post id is required'}, status
-        else:
             try:
                 now = datetime.datetime.now()
                 comment = {};
                 comment = ({
                 "commentId": GenerateCommentID(convertedID),
                 "content": resp['content'],
-                "creator": resp['username'],
+                "creator": resp['creator'],
                 "created": now.strftime("%Y-%m-%d %H:%M:%S")
                 })
                 for i in posts:
                     if (i['postId'] == convertedID):
                         i['comments'].append(comment)
                         status = 201
-                        print(comment)
                         return comment, status
 
             except:
@@ -69,66 +64,59 @@ async def CreateComment(id, data, status):
                 return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
 
 async def SelectPostByID(id, status):
-    convertedID = int(id)
+    print('Reading post details for ID:', id);
     found = False
     for i in posts:
-        if (i['postId'] == convertedID):
+        if (i['postId'] == id):
             found = True
+            break
     if (found == True):
-        if (id == Undefined):
-            status = 400
-            return {'error': 'post id is required'}, status
         try: 
             for i in posts:
-                if (i['postId'] == convertedID):
+                if (i['postId'] == id):
                     print('Post found :', i['title'])
                     status = 200
                     return i, status
-                if (i['postId'] != convertedID):
-                    status = 404
-                    return {'error': 'no content'}, status
         except:
             status = 400
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
+
+
 
 async def SelectAllCommentsByPostID(id, status):
-    convertedID = int(id)
+    print('Reading all comments for post ID:', id);
     found = False
     for i in posts:
-        if (i['postId'] == convertedID):
+        if (i['postId'] == id):
             found = True
+            break
     if (found == True):
-        if (id == Undefined):
-            status = 400
-            return {'error': 'post id is required'}, status
         try: 
             for i in posts:
-                if (i['postId'] == convertedID):
+                if (i['postId'] == id):
                     print('Post found :', i['title'])
                     status = 200
                     return i['comments'], status
-                if (i['postId'] != convertedID):
-                    status = 404
-                    return {'error': 'no content'}, status
         except:
             status = 400
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
 
 async def SelectPostsByTitle(title, status):
-    print('Searching for posts by:', type(title))
+    print('Searching for posts by:', title)
     found = False
     for i in posts:
         if (i['title'] == title):
             found = True
+            break
     if (found == True):
         try: 
             for i in posts:
@@ -141,7 +129,9 @@ async def SelectPostsByTitle(title, status):
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
+
+
 
 async def SelectPostsByCreator(creator, status):
     print('Searching for posts by:', creator)
@@ -149,11 +139,10 @@ async def SelectPostsByCreator(creator, status):
     for i in posts:
         if (i['creator'] == creator):
             found = True
+            break
     if (found == True):
         try: 
             for i in posts:
-                print(i['creator'])
-                print(type(i['creator']))
                 if (i['creator'] == creator):
                     print('Post found :', i['title'])
                     status = 200
@@ -163,11 +152,11 @@ async def SelectPostsByCreator(creator, status):
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
 
 async def SelectAllPosts(status):
+    print('Reading all posts')
     try:
-        print('All posts found')
         status = 200
         return posts, status
     except:
@@ -175,25 +164,20 @@ async def SelectAllPosts(status):
         return {'error': 'no content'}, status
 
 async def DeletePostByID(id,status):
-    convertedID = int(id)
-    count = 0
+    print('Deleting post for post ID:', id)
     found = False
     for i in posts:
-        count = count + 1
-        if (count > 0):
-            if (i['postId'] == convertedID):
+        if (i['postId'] == id):
                 found = True
-    if (id == Undefined):
-        status = 400
-        return {'error': 'post id is required'}, status
+                break
     if (found == True):
         try:
             for i in posts:
-                if (i['postId'] == convertedID):
+                if (i['postId'] == id):
                     posts.remove(i)
                     status = 200
                     print('Post deleted')
-                    return {'message': 'Post deleted'}, status
+                    return {'message': 'Post deleted', 'post' : i}, status
                 else:
                     status = 404
                     return {'error': 'no content'}, status
@@ -202,52 +186,34 @@ async def DeletePostByID(id,status):
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
 
 async def DeleteCommentByID(postID, id, status):
-    convertedPostID = int(postID)
-    convertedCommentID = int(id)
-    count = 0
-    inner = 0
-    if (postID == Undefined):
-        status = 400
-        return {'error': 'post id is required'}, status
-    if(id == Undefined):
-        status = 400
-        return {'error': 'comment id is required'}, status
-    print(convertedCommentID)
-    print(convertedPostID)
+    print('Deleting comment of post ID:', postID)
+    print('Deleting comment by ID:', id)
     found = False
     for i in posts:
-        count = count + 1
-        for j in i['comments']:
-            inner = inner + 1
-            if (inner > 0):
-                if (j['commentId'] == convertedCommentID):
-                    found = True
-                    print('found')
-                    break
-    print(found)
+        if (i['postId'] == postID):
+            found = True
+            break
     if (found == True):
         try:
             for i in posts:
-                if (i['postId'] == convertedPostID):
+                if (i['postId'] == postID):
                     print('Post found :', i['title'])
                     for j in i['comments']:
-                        if (j['commentId'] == convertedCommentID):
-                            i['comments'].remove(j)
+                        print('Comment found :', j['commentId'])
+                        if (j['commentId'] == id):
+                            del i['comments'][j]
                             status = 200
                             print('Comment deleted')
                             return {'message': 'Comment deleted'}, status
-                        else:
-                            status = 404
-                            return {'message': 'Cannot delete a Comment'}, status
         except:
             status = 400
             return {'error': 'no content'}, status
     else:
         status = 404
-        return {'error': 'no content'}, status
+        return {'error': 'Post not found'}, status
 
 
 

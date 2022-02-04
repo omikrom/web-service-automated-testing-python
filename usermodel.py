@@ -61,7 +61,7 @@ async def SelectUserByUsername(username, status):
             for i in userdata:
                 print(i['username'])
                 print(username)
-                if (i['name'] == username):
+                if (i['username'] == username):
                     print('User found :', i['name'])
                     status = 200
                     return i, status

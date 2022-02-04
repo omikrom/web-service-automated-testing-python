@@ -124,7 +124,7 @@ async def DeleteUserByID(id, status):
             for i in userdata:
                 if (i['id'] == id):
                     print('Deleting user :', i['username'])
-                    i.remove(i)
+                    userdata.remove(i)
                     status = 200
                     return {'message': 'deleted'}, status
         except:

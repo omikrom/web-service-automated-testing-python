@@ -8,7 +8,7 @@ async def CreateUser(data, status):
     json_str = json.dumps(data.json)
     ## load json to python object
     req = json.loads(json_str)
-    print('Adding a new user :', resp['username'])
+    print('Adding a new user :', req['username'])
     try:
         now = datetime.datetime.now()
         userInput = {};

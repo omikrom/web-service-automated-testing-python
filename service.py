@@ -75,7 +75,6 @@ async def deleteuser(id):
     return jsonify(res[0]), res[1]
 
 
-
     ## POST ROUTES ##
 
 

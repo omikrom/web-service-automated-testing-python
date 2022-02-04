@@ -204,7 +204,7 @@ async def DeleteCommentByID(postID, id, status):
                     for j in i['comments']:
                         print('Comment found :', j['commentId'])
                         if (j['commentId'] == id):
-                            i['comments'].pop(j)
+                            i['comments'].remove(j)
                             status = 200
                             print('Comment deleted')
                             return {'message': 'Comment deleted'}, status

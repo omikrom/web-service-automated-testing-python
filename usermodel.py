@@ -28,38 +28,54 @@ async def CreateUser(data, status):
         return {'error': 'no content'}, status
 
 async def SelectUserByID(id, status):
-    convertedID = int(id)
-    try: 
-        for i in userdata:
-            if (i['id'] == convertedID):
-                print('User found :', i['username'])
-                status = 200
-                return i, status
-            if (i['id'] != id):
-                status = 404
-                return {'error': 'no content'}, status
-    except:
-        status = 400
-        return {'error': 'no content'}, status
+    print('Reading user details by id: ', id)
+    found = False
+    for i in userdata:
+        if (i['id'] == id):
+            found = True
+            break
+    if(found == True):
+        try: 
+            for i in userdata:
+                if (i['id'] == id):
+                    print('User found :', i['username'])
+                    status = 200
+                    return i, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'user id not found'}, status
 
 
 async def SelectUserByUsername(username, status):
-    try: 
-        for i in userdata:
-            print(i['username'])
-            print(username)
-            if (i['name'] == username):
-                print('User found :', i['name'])
-                status = 200
-                return i, status
-    except:
-        status = 400
-        return {'error': 'no content'}, status
+    print('Reading user details by name: ', username)
+    found = False
+    for i in userdata:
+        if (i['username'] == username):
+            found = True
+            break
+    if(found == True):
+        try: 
+            for i in userdata:
+                print(i['username'])
+                print(username)
+                if (i['name'] == username):
+                    print('User found :', i['name'])
+                    status = 200
+                    return i, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'user name not found'}, status
 
 
 async def SelectAllUsers(status):
+    print('Reading all users')
     try:
-        print('Getting all users')
         status = 200
         return userdata, status
     except:
@@ -68,46 +84,55 @@ async def SelectAllUsers(status):
 
 
 async def UpdateUserByID(id, data, status):
-    print('update user by id')
+    print('update user by id: ', id)
     ## dump string to json
-    convertedID = int(id)
     json_str = json.dumps(data.json)
     ## load json to python object
-    resp = json.loads(json_str)
-    print('Updating user :', resp['username'])
-    if (resp['username'] == ''):
-        print('no content')
-        status = 400
-        return {'error': 'no content'}, status
-        ## convert data to json
-    else:
+    req = json.loads(json_str)
+    found = False
+    for i in userdata:
+        if(i['id'] == id):
+            found = True
+            break
+    if(found == True):
         try:
             for i in userdata:
-                if (i['id'] == convertedID):
-                    i['username'] = resp['username']
-                    i['password'] = resp['password']
-                    i['name'] = resp['name']
-                    i['email'] = resp['email']
-                    print(userdata)
+                if (i['id'] == id):
+                    i['username'] = req['username']
+                    i['password'] = req['password']
+                    i['name'] = req['name']
+                    i['email'] = req['email']
                     status = 200
                     return i, status
         except:
             status = 400
             return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'user id not found'}, status
 
 
 async def DeleteUserByID(id, status):
-    convertedID = int(id)
-    try:
-        for i in userdata:
-            if (i['id'] == convertedID):
-                print('Deleting user :', i['username'])
-                userdata.pop(i)
-                status = 200
-                return {'message': 'deleted'}, status
-    except:
-        status = 400
-        return {'error': 'no content'}, status
+    print('Deleting user by id: ', id)
+    found = False
+    for i in userdata:
+        if(i['id'] == id):
+            found = True
+            break
+    if(found == True):
+        try:
+            for i in userdata:
+                if (i['id'] == id):
+                    print('Deleting user :', i['username'])
+                    i.remove(i)
+                    status = 200
+                    return {'message': 'deleted'}, status
+        except:
+            status = 400
+            return {'error': 'no content'}, status
+    else:
+        status = 404
+        return {'error': 'user id not found'}, status
 
 
 def GenerateID():

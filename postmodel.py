@@ -2,7 +2,23 @@ import json
 import sys, datetime
 
 
-posts = [];
+posts = [
+    {
+        "postId": 1,
+        "title": "Post 1",
+        "content": "This is the first post",
+        "created": "2020-01-01 00:00:00",
+        "creator": "John Doe",
+        "comments": [
+            {
+                "commentId": 1,
+                "content": "This is the first comment",
+                "created": "2020-01-01 00:00:00",
+                "creator": "John Doe"
+            },
+        ]
+    }
+];
 
 async def CreatePost(data, status):
     ## dump string to json

@@ -1,7 +1,6 @@
 import json
 import sys, datetime
 
-from jinja2 import Undefined
 
 posts = [];
 
@@ -32,15 +31,14 @@ async def CreatePost(data, status):
             return {'error': 'no content'}, status
 
 async def CreateComment(id, data, status): 
-    convertedID = int(id)
     ## dump string to json
     json_str = json.dumps(data.json)
     ## load json to python object
-    resp = json.loads(json_str)
-    print('Adding a new comment by:', resp['creator'])
+    req = json.loads(json_str)
+    print('Adding a new comment by:', req['creator'])
     found = False
     for i in posts:
-        if (i['postId'] == convertedID):
+        if (i['postId'] == id):
             found = True
             break
     if(found == True):
@@ -48,13 +46,13 @@ async def CreateComment(id, data, status):
                 now = datetime.datetime.now()
                 comment = {};
                 comment = ({
-                "commentId": GenerateCommentID(convertedID),
-                "content": resp['content'],
-                "creator": resp['creator'],
+                "commentId": GenerateCommentID(id),
+                "content": req['content'],
+                "creator": req['creator'],
                 "created": now.strftime("%Y-%m-%d %H:%M:%S")
                 })
                 for i in posts:
-                    if (i['postId'] == convertedID):
+                    if (i['postId'] == id):
                         i['comments'].append(comment)
                         status = 201
                         return comment, status

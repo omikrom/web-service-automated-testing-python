@@ -5,7 +5,6 @@ import sys, datetime
 posts = [];
 
 async def CreatePost(data, status):
-    print('creating a new post')
     ## dump string to json
     json_str = json.dumps(data.json)
     ## load json to python object

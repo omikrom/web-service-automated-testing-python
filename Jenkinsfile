@@ -17,7 +17,6 @@ pipeline {
             steps {
             
                     sh '''#!/bin/bash
-                    
                     npm --version; 
                     node --version;
                     echo "------> Install node modules <-------";

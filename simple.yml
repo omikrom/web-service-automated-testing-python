@@ -1,0 +1,9 @@
+config:
+  target: 'https://web-service-testing-python.herokuapp.com/'
+  phases:
+    - duration: 60
+      arrivalRate: 20
+scenarios:
+  - flow:
+    - get:
+        url: "/users"

@@ -5,16 +5,16 @@ import sys, datetime
 posts = [
     {
         "postId": 1,
-        "title": "Post 1",
+        "title": "apost",
         "content": "This is the first post",
         "created": "2020-01-01 00:00:00",
-        "creator": "John Doe",
+        "creator": "omikrom2",
         "comments": [
             {
                 "commentId": 1,
                 "content": "This is the first comment",
                 "created": "2020-01-01 00:00:00",
-                "creator": "John Doe"
+                "creator": "omikrom2"
             },
         ]
     }

@@ -1,5 +1,5 @@
 config:
-  target: 'https://web-service-testing-python.herokuapp.com/'
+  target: 'https://web-service-testing-python.herokuapp.com'
   phases:
     - duration: 60
       arrivalRate: 20

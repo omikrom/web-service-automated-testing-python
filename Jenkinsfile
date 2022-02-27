@@ -45,7 +45,7 @@ pipeline {
                 '''
             }
         }
-        stage('Push to Staging') {
+      /*  stage('Push to Staging') {
             steps {
                 sh 'npm i'
                 sh '''#!/bin/bash
@@ -58,6 +58,6 @@ pipeline {
                 artillery run simple.yml;
                 ''' 
                 }
-        }
+        }*/
     }
 }
